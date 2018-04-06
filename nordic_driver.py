@@ -60,10 +60,10 @@ class NordicBluetoothDriver(object):
         for dev in devices:
             if dev['name'] == NordicBluetoothDriver.BLUETOOTH_NAME:
                 self.address = dev['address']
-                self.logger.info("Device found; address:", self.address)
+                self.logger.info("Device found; address:" + str(self.address))
                 break
         self.adapter.reset()  # reset adpter so we can scan again
-        self.logger.info(".", end="")
+        self.logger.info(".")
     
     def find_device(self, scan_once=False):
         """ Scans for Bluetooth devices in range, and attempts to find the InPro device and saves its address
@@ -121,5 +121,7 @@ class NordicBluetoothDriver(object):
         return success
     
     def read_pressure_sensor_value(self, sensor_number):
+        if sensor_number >= len(NordicBluetoothDriver.PRESSURE_SENSOR_UUIDS) or sensor_number < 0:
+            raise ValueError("Sensor number %d does not exist" % sensor_number)
         return self.device.char_read(NordicBluetoothDriver.PRESSURE_SENSOR_UUIDS[sensor_number])
             
