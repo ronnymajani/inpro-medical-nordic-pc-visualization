@@ -6,25 +6,24 @@ Created on Thu Apr  5 20:37:21 2018
 @author: ronnymajani
 """
 
-import pygatt
-from uuid import UUID
-
+from visualization import VisualizationTask
 from nordic_driver import NordicBluetoothDriver
 
 import logging
 logging.basicConfig()
 logging.getLogger().setLevel(logging.DEBUG)
 
-#%%
-
-#%% Globals
-driver = NordicBluetoothDriver()
-driver.find_device()
-driver.connect()
 #%% Volatiles
 pressure_sensor_values = [0, 0, 0, 0]
 
 #%%
+
+if __name__ == "__main__":
+    driver = NordicBluetoothDriver()
+    driver.find_device()
+    driver.connect()
+    visualization = VisualizationTask(driver)
+    visualization.start()
 
 #%% callback function
 #def pressure_sensor_changed_callback(sensor_number, handle, value):

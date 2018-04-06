@@ -21,6 +21,12 @@ class NordicBluetoothDriver(object):
         UUID("D2AC1526-E607-4DAA-9E03-9453C15B3FE9"),  # Pressure Sensor 2 Characteristic UUID
         UUID("D2AC1527-E607-4DAA-9E03-9453C15B3FE9")  # Pressure Sensor 3 Characteristic UUID
     )
+    PRESSURE_SENSOR_LABELS = (
+        "Pressure Sensor 0",        
+        "Pressure Sensor 1",
+        "Pressure Sensor 2",
+        "Pressure Sensor 3",
+    )
     
     def __init__(self):
         self.address = None
@@ -120,8 +126,24 @@ class NordicBluetoothDriver(object):
                 success = self._connect()
         return success
     
-    def read_pressure_sensor_value(self, sensor_number):
+    def get_pressure_sensor_value(self, sensor_number):
+        """ Retreives the value of the specified Pressure Sensor
+        @param[in] sensor_number: The number of the pressure sensor to read
+        @returns the specified pressure sensor's raw value as an integer
+        """
         if sensor_number >= len(NordicBluetoothDriver.PRESSURE_SENSOR_UUIDS) or sensor_number < 0:
             raise ValueError("Sensor number %d does not exist" % sensor_number)
-        return self.device.char_read(NordicBluetoothDriver.PRESSURE_SENSOR_UUIDS[sensor_number])
-            
+        val = self.device.char_read(NordicBluetoothDriver.PRESSURE_SENSOR_UUIDS[sensor_number])
+        return int.from_bytes(val, byteorder='big', signed=False)
+
+    def get_all_pressure_sensor_values(self):
+        """ Retreives the values of all the InPros Pressure Sensors
+        @returns a list of the pressure sensors' raw values as integers
+        """
+        vals = []
+        for sensor_number in range(len(NordicBluetoothDriver.PRESSURE_SENSOR_UUIDS)):
+            vals.append(self.get_pressure_sensor_value(sensor_number))
+        return vals
+    
+    def get_pressure_sensor_labels(self):
+        return NordicBluetoothDriver.PRESSURE_SENSOR_LABELS
