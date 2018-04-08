@@ -50,9 +50,16 @@ so we set its permissions like this:
 $ sudo setcap 'cap_net_raw,cap_net_admin+eip' /home/pi/.local/lib/python3.5/site-packages/bluepy/bluepy-helper
 ```
 
+### Modifications:
+- You can change how fast the plot refreshes itself by changing the constant `REFRESH_SPEED` located in `visualization.py` inside the `VisualizationWindow` class
+- You can modify the UUID of the InPro GATT service by modifying `INPRO_SERVICE_UUID` in `nordicdriver.py` inside the `NordicDriver` class
+- To specify the name of the InPro device that this code will try to connect to, you can modify `NORDIC_NAME` in `nordicdriver.py` inside the `NordicDriver` class
+
 
 ### Usefule links:
 - For Plotting:
   https://stackoverflow.com/questions/25385216/python-real-time-varying-heat-map-plotting
 - For BluePy Permissions Problem:
   https://github.com/IanHarvey/bluepy/issues/190
+- BluePy documentation:
+  http://ianharvey.github.io/bluepy-doc/index.html
