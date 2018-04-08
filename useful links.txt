@@ -1,0 +1,8 @@
+For Plotting:
+https://stackoverflow.com/questions/25385216/python-real-time-varying-heat-map-plotting
+
+BluePy:
+https://github.com/IanHarvey/bluepy
+
+For BluePy Permissions Problem:
+https://github.com/IanHarvey/bluepy/issues/190
