@@ -22,15 +22,22 @@ class VisualizationWindow(threading.Thread):
         self.running = True
         self.pressure_values = []
         self.nordicDriver = nordic_driver
+        self._setup_plot()
+        
+    def _setup_plot(self):
         self.fig = plt.figure()
+        self.fig.canvas.mpl_connect('close_event', self._handle_close)
         self.ax = self.fig.add_subplot(111)
-        vals = self.nordicDriver.get_all_pressure_sensor_values()
-        self.im = self.ax.imshow(vals)
+        self.im = self.ax.imshow(self._get_values(), cmap=matplotlib.cm.YlOrRd)
         plt.show(block=False)
         
-    def plot(self):
+    def _get_values(self):
         vals = self.nordicDriver.get_all_pressure_sensor_values()
-        self.im.set_array(vals)
+        vals = [vals[0][:2], vals[0][2:]]
+        return vals
+        
+    def plot(self):
+        self.im.set_array(self._get_values())
         self.fig.canvas.draw()
         
     def run(self):
@@ -42,6 +49,10 @@ class VisualizationWindow(threading.Thread):
             time.sleep(VisualizationWindow.REFRESH_SPEED)
     
         plt.close(self.fig)
+        
+    def _handle_close(self, evt):
+        self.stop()
+        self.nordicDriver.stop()
         
     def stop(self):
         """ Stop Visualization Task """

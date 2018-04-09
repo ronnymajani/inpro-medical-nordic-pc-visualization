@@ -29,9 +29,14 @@ from nordicdriver import NordicDriver
 from visualization import VisualizationWindow
 
 if __name__ == "__main__":
+    # start nordic driver
     driver = NordicDriver()
     driver.initialize()
+    # start visualization
     visualizer = VisualizationWindow(driver)
     visualizer.start()
+    # wait for threads to end
+    visualizer.join()
+    driver.join()
     
         
