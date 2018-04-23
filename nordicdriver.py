@@ -139,6 +139,7 @@ class NordicDriver(threading.Thread):
             else:
                 # no notifications received
                 continue
+        self.device.disconnect()
             
     def stop(self):
         """ Stop this class's thread (the run() function) """

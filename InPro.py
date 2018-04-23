@@ -36,7 +36,7 @@ if __name__ == "__main__":
     visualizer = VisualizationWindow(driver)
     visualizer.start()
     # wait for threads to end
-    visualizer.join()
-    driver.join()
+#    visualizer.join()
+#    driver.join()
     
         
