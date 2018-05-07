@@ -41,7 +41,7 @@ class VisualizationWindow(threading.Thread):
         self.fig = plt.figure()
         self.fig.canvas.mpl_connect('close_event', self._handle_close)
         self.ax = self.fig.add_subplot(111)
-        self.im = self.ax.imshow(self._get_values(), cmap=matplotlib.cm.YlOrRd)
+        self.im = self.ax.imshow(self._get_values(), interpolation='gaussian', cmap=matplotlib.cm.YlOrRd)
         plt.show()
 
     def _log_values(self, vals):
